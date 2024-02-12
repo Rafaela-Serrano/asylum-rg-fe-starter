@@ -73,6 +73,8 @@ function GraphWrapper(props) {
     
     */
 
+    let data = [];
+
     if (office === 'all' || !office) {
       axios
         .get('https://hrf-asylum-be-b.herokuapp.com/cases/fiscalSummary', {
@@ -83,7 +85,23 @@ function GraphWrapper(props) {
           },
         })
         .then(result => {
-          stateSettingCallback(view, office, [result.data]); // <-- `test_data` here can be simply replaced by `result.data` in prod!
+          data.push(result.data);
+          axios
+            .get(
+              'https://hrf-asylum-be-b.herokuapp.com/cases/citizenshipSummary',
+              {
+                params: {
+                  from: years[0],
+                  to: years[1],
+                  office: office,
+                },
+              }
+            )
+            .then(result => {
+              data[0]['citizenshipResults'] = result.data;
+              console.log(data);
+              stateSettingCallback(view, office, data);
+            });
         })
         .catch(err => {
           console.error(err);
@@ -99,8 +117,13 @@ function GraphWrapper(props) {
           },
         })
         .then(result => {
-          console.log(result);
-          stateSettingCallback(view, office, result.data); // <-- `test_data` here can be simply replaced by `result.data` in prod!
+          let data = [
+            {
+              citizenshipResults: result.data,
+            },
+          ];
+
+          stateSettingCallback(view, office, data); // <-- `test_data` here can be simply replaced by `result.data` in prod!
         })
         .catch(err => {
           console.error(err);

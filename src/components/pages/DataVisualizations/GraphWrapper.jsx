@@ -108,22 +108,31 @@ function GraphWrapper(props) {
         });
     } else {
       axios
-        .get('https://hrf-asylum-be-b.herokuapp.com/cases/citizenshipSummary', {
+        .get('https://hrf-asylum-be-b.herokuapp.com/cases/fiscalSummary', {
           // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
           params: {
             from: years[0],
             to: years[1],
-            office: office,
           },
         })
         .then(result => {
-          let data = [
-            {
-              citizenshipResults: result.data,
-            },
-          ];
-
-          stateSettingCallback(view, office, data); // <-- `test_data` here can be simply replaced by `result.data` in prod!
+          data.push(result.data);
+          axios
+            .get(
+              'https://hrf-asylum-be-b.herokuapp.com/cases/citizenshipSummary',
+              {
+                params: {
+                  from: years[0],
+                  to: years[1],
+                  office: office,
+                },
+              }
+            )
+            .then(result => {
+              data[0]['citizenshipResults'] = result.data;
+              console.log(data);
+              stateSettingCallback(view, office, data);
+            });
         })
         .catch(err => {
           console.error(err);

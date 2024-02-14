@@ -106,7 +106,6 @@ function GraphWrapper(props) {
           console.error(err);
         });
     } else {
-      // instead of duplicating these entire api calls why not only condititionally provide the value that changes, for example declaring the params as a variable w/ or w/o the office property, then calling the api with the params, much easier to read and less plca
       axios
         .get('https://hrf-asylum-be-b.herokuapp.com/cases/fiscalSummary', {
           // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!

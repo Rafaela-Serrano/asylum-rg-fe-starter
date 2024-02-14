@@ -92,7 +92,7 @@ function GraphWrapper(props) {
               {
                 params: {
                   from: years[0],
-                  to: years[1], // if this is being called when no office is being set, isn't this redundant
+                  to: years[1],
                 },
               }
             )
@@ -113,7 +113,7 @@ function GraphWrapper(props) {
           params: {
             from: years[0],
             to: years[1],
-            office: office, // fixme shouldn't this provide the office param, otherwise user will be expecting to see data limited to a single office but instead have data from the whole country, would be misleading
+            office: office,
           },
         })
         .then(result => {

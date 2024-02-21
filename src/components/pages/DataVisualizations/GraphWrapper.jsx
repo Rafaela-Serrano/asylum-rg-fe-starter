@@ -75,27 +75,34 @@ function GraphWrapper(props) {
 
     let data = [];
 
+    const fiscalSummaryURL =
+      'https://hrf-asylum-be-b.herokuapp.com/cases/fiscalSummary';
+    const citizenshipSummaryURL =
+      'https://hrf-asylum-be-b.herokuapp.com/cases/citizenshipSummary';
+
+    const params1 = {
+      from: years[0],
+      to: years[1],
+    };
+
+    const params2 = {
+      from: years[0],
+      to: years[1],
+      office: office,
+    };
+
     if (office === 'all' || !office) {
       axios
-        .get('https://hrf-asylum-be-b.herokuapp.com/cases/fiscalSummary', {
+        .get(fiscalSummaryURL, {
           // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
-          params: {
-            from: years[0],
-            to: years[1],
-          },
+          params1,
         })
         .then(result => {
           data.push(result.data);
           axios
-            .get(
-              'https://hrf-asylum-be-b.herokuapp.com/cases/citizenshipSummary',
-              {
-                params: {
-                  from: years[0],
-                  to: years[1],
-                },
-              }
-            )
+            .get(citizenshipSummaryURL, {
+              params1,
+            })
             .then(result => {
               data[0]['citizenshipResults'] = result.data;
               console.log(data);
@@ -107,27 +114,16 @@ function GraphWrapper(props) {
         });
     } else {
       axios
-        .get('https://hrf-asylum-be-b.herokuapp.com/cases/fiscalSummary', {
+        .get(fiscalSummaryURL, {
           // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
-          params: {
-            from: years[0],
-            to: years[1],
-            office: office,
-          },
+          params2,
         })
         .then(result => {
           data.push(result.data);
           axios
-            .get(
-              'https://hrf-asylum-be-b.herokuapp.com/cases/citizenshipSummary',
-              {
-                params: {
-                  from: years[0],
-                  to: years[1],
-                  office: office,
-                },
-              }
-            )
+            .get(citizenshipSummaryURL, {
+              params2,
+            })
             .then(result => {
               data[0]['citizenshipResults'] = result.data;
               console.log(data);

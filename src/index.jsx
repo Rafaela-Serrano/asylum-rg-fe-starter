@@ -54,6 +54,7 @@ export function App() {
       <Switch>
         <Route path="/" exact component={LandingPage} />
         <Route path="/graphs" component={GraphsContainer} />
+        {/* <Route path="/callback" element={CallbackPage} /> */}
         <Route component={NotFoundPage} />
       </Switch>
       <Footer

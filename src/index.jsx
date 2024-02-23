@@ -24,6 +24,8 @@ import reducer from './state/reducers';
 import { colors } from './styles/data_vis_colors';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min';
+import Profile from './components/pages/ProfilePage/profile';
+import { useAuth0 } from '@auth0/auth0-react';
 // import { CallbackPage } from './components/pages/callback-page';
 // import { Auth0ProviderWithHistory } from './components/pages/auth0-provider-with-history';
 
@@ -56,6 +58,7 @@ ReactDOM.render(
 
 export function App() {
   const { Footer, Header } = Layout;
+  const { isAuthenticated } = useAuth0();
   return (
     <Layout>
       <Header
@@ -71,7 +74,7 @@ export function App() {
       <Switch>
         <Route path="/" exact component={LandingPage} />
         <Route path="/graphs" component={GraphsContainer} />
-        {/* <Route path="/callback" component={CallbackPage} /> */}
+        {isAuthenticated && <Route path="/profile" component={Profile} />}
         <Route component={NotFoundPage} />
       </Switch>
       <Footer

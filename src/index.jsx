@@ -24,21 +24,31 @@ import reducer from './state/reducers';
 import { colors } from './styles/data_vis_colors';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min';
-import { CallbackPage } from './components/pages/callback-page';
+// import { CallbackPage } from './components/pages/callback-page';
+// import { Auth0ProviderWithHistory } from './components/pages/auth0-provider-with-history';
 
 const { primary_accent_color } = colors;
+
+const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
 
 const store = configureStore({ reducer: reducer });
 ReactDOM.render(
   <BrowserRouter>
     <Router>
-      <Auth0Provider>
-        <Provider store={store}>
-          <React.StrictMode>
+      <Provider store={store}>
+        <React.StrictMode>
+          <Auth0Provider
+            domain={domain}
+            clientId={clientId}
+            authorizationParams={{
+              redirect_uri: window.location.origin,
+            }}
+          >
             <App />
-          </React.StrictMode>
-        </Provider>
-      </Auth0Provider>
+          </Auth0Provider>
+        </React.StrictMode>
+      </Provider>
     </Router>
   </BrowserRouter>,
   document.getElementById('root')
@@ -61,7 +71,7 @@ export function App() {
       <Switch>
         <Route path="/" exact component={LandingPage} />
         <Route path="/graphs" component={GraphsContainer} />
-        <Route path="/callback" component={CallbackPage} />
+        {/* <Route path="/callback" component={CallbackPage} /> */}
         <Route component={NotFoundPage} />
       </Switch>
       <Footer

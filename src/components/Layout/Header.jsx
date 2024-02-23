@@ -3,6 +3,7 @@ import { Image } from 'antd';
 import { Link } from 'react-router-dom';
 import Logo from '../../styles/Images/WhiteLogo.png';
 import { colors } from '../../styles/data_vis_colors';
+import AuthenticationButtons from './AuthenticationButtons';
 
 const { primary_accent_color } = colors;
 
@@ -25,8 +26,13 @@ function HeaderContent() {
         <Link to="/" style={{ color: '#E2F0F7', paddingRight: '75px' }}>
           Home
         </Link>
-        <Link to="/graphs" style={{ color: '#E2F0F7' }}>
+        <Link to="/graphs" style={{ color: '#E2F0F7', paddingRight: '75px' }}>
           Graphs
+        </Link>
+        <Link
+          style={{ color: '#E2F0F7', backgroundColor: primary_accent_color }}
+        >
+          <AuthenticationButtons />
         </Link>
       </div>
     </div>
